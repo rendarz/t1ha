@@ -128,13 +128,13 @@
 
 #elif defined(_MSC_VER)
 
-#if _MSC_FULL_VER < 190024218 && defined(_M_IX86)
+#if _MSC_FULL_VER < 190024234 && defined(_M_IX86)
 #pragma message(                                                               \
-    "For AES-NI at least \"Microsoft C/C++ Compiler\" version 19.00.24218 (Visual Studio 2015 Update 5) is required.")
+    "For AES-NI at least \"Microsoft C/C++ Compiler\" version 19.00.24234 (Visual Studio 2015 Update 3) is required.")
 #endif
-#if _MSC_FULL_VER < 191025019
+#if _MSC_FULL_VER < 191526730
 #pragma message(                                                               \
-    "It is recommended to use \"Microsoft C/C++ Compiler\" version 19.10.25019 (Visual Studio 2017) or newer.")
+    "It is recommended to use \"Microsoft C/C++ Compiler\" version 19.15.26730 (Visual Studio 2017 15.8) or newer.")
 #endif
 #if _MSC_FULL_VER < 180040629
 #error At least "Microsoft C/C++ Compiler" version 18.00.40629 (Visual Studio 2013 Update 5) is required.
