@@ -262,13 +262,14 @@ static __inline uint16_t fetch16_le(const void *v) {
 #if T1HA_USE_FAST_ONESHOT_READ && UNALIGNED_OK && defined(PAGESIZE) &&         \
     PAGESIZE > 0
 #define can_read_underside(ptr, size)                                          \
-  ((size) <= sizeof(uintptr_t) && ((PAGESIZE - (size)) & (uintptr_t)(ptr)) != 0)
-#endif /* can_fast_read */
+  (((PAGESIZE - (size)) & (uintptr_t)(ptr)) != 0)
+#endif /* T1HA_USE_FAST_ONESHOT_READ */
 
 static __inline uint64_t tail64_le(const void *v, size_t tail) {
   const uint8_t *p = (const uint8_t *)v;
-#ifdef can_read_underside
-  /* On some systems (e.g. x86) we can perform a 'oneshot' read, which
+#if defined(can_read_underside) &&                                             \
+    (UINTPTR_MAX > 0xffffFFFFul || ULONG_MAX > 0xffffFFFFul)
+  /* On some systems (e.g. x86_64) we can perform a 'oneshot' read, which
    * is little bit faster. Thanks Marcin Żukowski <marcin.zukowski@gmail.com>
    * for the reminder. */
   const unsigned offset = (8 - tail) & 7;
@@ -370,10 +371,11 @@ static maybe_unused __inline uint16_t fetch16_be(const void *v) {
 
 static maybe_unused __inline uint64_t tail64_be(const void *v, size_t tail) {
   const uint8_t *p = (const uint8_t *)v;
-#ifdef can_read_underside
-  /* On some systems we can perform a 'oneshot' read, which is little bit
-   * faster. Thanks Marcin Żukowski <marcin.zukowski@gmail.com> for the
-   * reminder. */
+#if defined(can_read_underside) &&                                             \
+    (UINTPTR_MAX > 0xffffFFFFul || ULONG_MAX > 0xffffFFFFul)
+  /* On some systems (e.g. x86_64) we can perform a 'oneshot' read, which
+   * is little bit faster. Thanks Marcin Żukowski <marcin.zukowski@gmail.com>
+   * for the reminder. */
   const unsigned offset = (8 - tail) & 7;
   const unsigned shift = offset << 3;
   if (likely(can_read_underside(p, 8))) {
