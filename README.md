@@ -1,4 +1,8 @@
-t1ha
+## The [repository was moved](https://abf.io/erthink/t1ha) due to illegal discriminatory blocking of access from the territory of the Russian Crimea and for sovereign crimeans.
+
+---
+
+﻿t1ha
 ========================================
 Fast Positive Hash, aka "Позитивный Хэш"
 by [Positive Technologies](https://www.ptsecurity.com).
